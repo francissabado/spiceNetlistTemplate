@@ -1,0 +1,8 @@
+= Cadence Spice Generation scripts
+
+== How to use the scripts.
+. Setup simulation directory +
+`./setupRunFiles.sh`
+
+
+
