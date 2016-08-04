@@ -1,8 +1,28 @@
 = Cadence Spice Generation scripts
 
 == How to use the scripts.
-. Setup simulation directory +
-`./setupRunFiles.sh`
+. Setup simulation directory
+
+    ./setupRunFiles.sh
+
+. Netlist all cells on the cell list.
+
+    ./netlistAll.sh
+
+. Shows which cells did not generate a netlist.
+Useful for when the cell list is large.
+
+    ./netlistCheck.sh
+
+. Clean the simulation directories.
+
+    ./cleanCellList.sh
 
 
+== Netlist Template
 
+runNetlish.sh:: runs Cadence simulation environment at the scripts current directory.
+
+si.env:: Simulation environment settings.
+
+spice2Astran.sh:: Script translates a spice netlist to a netlist that ASTRAN understands.
