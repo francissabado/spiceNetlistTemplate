@@ -1,11 +1,17 @@
 #!/bin/bash -e
 #This run the Simulation Environment and generate a netlist
+#Use first argument as netlist name
 
 #Settings
 NETLIST_CDSLIB="${HOME}/Tezzaron3D_project/tezzaron_circuits_fsabado/cds.lib"
 PROJECT_DIR="${HOME}/Tezzaron3D_project"
 PROJECT_ENVIRONMENT_SCRIPT="${HOME}/Tezzaron3D_project/tezz3D-runscript2"
 
+
+#Check if first argument is set to use as a netlist name
+if [ ! -z "$1" ]; then
+	NETLIST_NAME="${1}"
+fi 
 
 #Get Current Directory Snippet
 #http://stackoverflow.com/questions/59895/can-a-bash-script-tell-which-directory-it-is-stored-in
@@ -17,9 +23,24 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
 done
 DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
+#Go to current directory for netlisting
+PREVIOUS_DIR=$(pwd)
+cd ${DIR}
+
 #http://stackoverflow.com/questions/29324463/source-from-string-is-there-any-way-in-shell
 echo "Loading Environment"
 source ~/Tezzaron3D_project/tezz3D-runscript2 >/dev/null 2>&1
 
 si -batch -command netlist -cdslib "${NETLIST_CDSLIB}" "${DIR}"
+
+# Create ASTRAN netlist
+FULLNAME=$(basename $(find . -name "*.sp"))
+EXTENSION="${FULLNAME##*.}"
+FILENAME="${FULLNAME%.*}"
+
+bash ./spice2Astran.sh ./"${FULLNAME}" > ./"${FILENAME}"_ASTRAN.sp
+
+#Return to previous directory
+cd "${PREVIOUS_DIR}"
+
 echo "Done"
