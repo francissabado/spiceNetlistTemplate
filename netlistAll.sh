@@ -22,8 +22,8 @@ printf "Netlisting %d\n" "${cellCount}"
 
 for i in "${cellList[@]}";
 do
-	echo "Simulating ${i}"
+	echo "Netlisting ${i}"
 
-    (./"${i}"/runNetlist.sh &)
+    (cd ./"${i}"; ./runNetlist.sh | tee ./netlist.log &)
 
 done
