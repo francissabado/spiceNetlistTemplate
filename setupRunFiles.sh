@@ -39,12 +39,12 @@ do
 
 	#Using varibles in sed
 	#http://unix.stackexchange.com/questions/148967/how-to-use-a-shell-variable-inside-seds-s-command
-	sed -i "
+	(sed -i "
 	s/^simLibName.*/simLibName = \"$(echo ${CELL_LIBRARY})\"/
 	s/^simViewName.*/simViewName = \"$(echo ${VIEW_NAME})\"/
 	s/^simCellName.*/simCellName = \"$(echo ${i})\"/
 	s/^hnlNetlistFileName.*/hnlNetlistFileName = \"$(echo ${i}).sp\"/
-	" ./"${i}"/si.env
+	" ./"${i}"/si.env &)
 
 	#Debugging sed
 	# echo sed -i "
