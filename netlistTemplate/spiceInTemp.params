@@ -1,0 +1,12 @@
+spiceInParams = list(nil
+	'conn2schArgs	"+PLACE_ONLY -MIN_CROSSOVERS -FAST_LABELS -asg "
+	'conn2schParamFile	"/home/fsabado/Tezzaron3D_project/SpiceNetlist/netlistScript/schOpts_spiceIn.params"
+	'language	"HSpice"
+	'netlistFile	"<NETLISTFILE>"
+	'outputLib	"<OUTPUTLIB>"
+	'refLibList	"chrt013lp analogLib"
+	'simName	"hspiceD"
+	'outputSimName	"hspiceD"
+	'logFile	"<NETLISTFILE>.log"
+	'overwriteCells	"all"
+)

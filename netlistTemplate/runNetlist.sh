@@ -2,6 +2,8 @@
 #This run the Simulation Environment and generate a netlist
 #Use first argument as netlist name
 
+#This file assumes thats the netlist is called with the required files
+
 #Settings
 NETLIST_CDSLIB="${HOME}/Tezzaron3D_project/tezzaron_circuits_fsabado/cds.lib"
 PROJECT_DIR="${HOME}/Tezzaron3D_project"
@@ -11,7 +13,7 @@ PROJECT_ENVIRONMENT_SCRIPT="${HOME}/Tezzaron3D_project/tezz3D-runscript2"
 #Check if first argument is set to use as a netlist name
 if [ ! -z "$1" ]; then
 	NETLIST_NAME="${1}"
-fi 
+fi
 
 #Get Current Directory Snippet
 #http://stackoverflow.com/questions/59895/can-a-bash-script-tell-which-directory-it-is-stored-in
@@ -33,14 +35,18 @@ source ~/Tezzaron3D_project/tezz3D-runscript2 >/dev/null 2>&1
 
 si -batch -command netlist -cdslib "${NETLIST_CDSLIB}" "${DIR}"
 
-# Create ASTRAN netlist
-FULLNAME=$(basename $(find . -name "*.sp"))
-EXTENSION="${FULLNAME##*.}"
-FILENAME="${FULLNAME%.*}"
+if [ -e "./cellParam" ]; then
+	cat "./cellParam" | xargs -L 1 ./setCellParam.sh
+fi
 
-bash ./spice2Astran.sh ./"${FULLNAME}" > ./"${FILENAME}"_ASTRAN.sp
+# Create ASTRAN netlist
+#FULLNAME=$(basename $(find . -name "*.sp"))
+#EXTENSION="${FULLNAME##*.}"
+#FILENAME="${FULLNAME%.*}"
+
+#bash ./spice2Astran.sh ./"${FULLNAME}" > ./"$(echo $FILENAME| tr a-z A-Z)"_ASTRAN.sp
 
 #Return to previous directory
-cd "${PREVIOUS_DIR}"
+#cd "${PREVIOUS_DIR}"
 
 echo "Done"

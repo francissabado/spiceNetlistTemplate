@@ -1,0 +1,13 @@
+--  conn2sch parameter file prepared by Spice In:
+sheet_symbol := none
+page_row_limit := 1024
+page_col_limit := 1024
+label_height := 10
+line_line_spacing := 0.200000
+line_component_spacing := 0.500000
+density_level := 0
+pin_placement := left_and_right_sides
+power_net     := vdd!
+ground_net    := gnd!
+power_symbol  := analogLib vdd symbol
+ground_symbol := analogLib gnd symbol

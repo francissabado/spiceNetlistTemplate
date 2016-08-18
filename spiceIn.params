@@ -1,0 +1,11 @@
+spiceInParams = list(nil
+	'conn2schArgs	"+PLACE_ONLY -MIN_CROSSOVERS -FAST_LABELS -asg "
+	'conn2schParamFile	"/home/fsabado/Tezzaron3D_project/SpiceNetlist/netlistScript/schOpts_spiceIn.params"
+	'language	"HSpice"
+	'netlistFile	"/home/fsabado/Tezzaron3D_project/SpiceNetlist/netlistScript/charteredNCL_PARAM/th24w2/th24w2_X8_IMP.sp"
+	'outputLib	"charteredNCL_IMP"
+	'refLibList	"chrt013lp analogLib"
+	'simName	"hspiceD"
+	'outputSimName	"hspiceD"
+	'overwriteCells	"all"
+)

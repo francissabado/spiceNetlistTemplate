@@ -1,9 +1,10 @@
 #!/bin/bash -e
 
-if [ "$#" -eq 3 ]; then
+if [ "$#" -eq 4 ]; then
 	CELL_LIBRARY="${1}"
 	CELL_NAME="${2}"
 	VIEW_NAME="${3}"
+	LIB_TYPE="${4}"
 
 else
 	echo "Usage: ./setupRunFile.sh <CELL_LIBRARY> <CELL_NAME> <VIEW_NAME>"
@@ -28,11 +29,15 @@ TEMPLATE_DIR="${DIR}/netlistTemplate"
 
 #Setup Directories
 CELL_DIR="${DIR}/${CELL_LIBRARY}/${CELL_NAME}"
+echo "Checking: ${CELL_DIR}/$(echo ${CELL_NAME} | tr a-z A-Z)_ASTRAN.sp"
+
+#if [ -e "${CELL_DIR}/$(echo ${CELL_NAME} | tr a-z A-Z)_ASTRAN.sp" ]; then
+#	echo "ASTRAN Generated"
+#	exit 0
+#fi
 
 mkdir -p "${DIR}/${CELL_LIBRARY}/"
 rsync -ar --inplace "${TEMPLATE_DIR}/" "${CELL_DIR}"
-
-
 
 #Replace the following properties
 #simLibName = "${CELL_LIBRARY}"
@@ -60,4 +65,16 @@ s/^hnlNetlistFileName.*/hnlNetlistFileName = \"$(echo ${CELL_NAME}).sp\"/
 
 echo "Netlisting ${CELL_NAME}"
 
-(cd "${CELL_DIR}"; ./runNetlist.sh | tee ./netlist.log &)
+if [ "$LIB_TYPE" == "NCL" ]; then
+	IMPORTLIB="charteredNCL_IMP"
+elif [ "$LIB_TYPE" == "MTNCL" ]; then
+	IMPORTLIB="charteredMTNCL_IMP"
+else
+	echo "Undefined LIB_TYPE"
+	exit 1
+fi
+
+(cd "${CELL_DIR}"; ./runNetlist.sh | tee ./netlist.log && ./spiceIn.sh $IMPORTLIB | tee ./spiceIn.log &&  echo "Done Netlisting $CELL_NAME")
+
+
+
